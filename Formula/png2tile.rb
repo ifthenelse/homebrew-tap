@@ -1,6 +1,3 @@
-# Documentation: https://docs.brew.sh/Formula-Cookbook
-#                https://docs.brew.sh/rubydoc/Formula
-# PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!
 class Png2tile < Formula
   desc "Convert PNG images into Sega Master System tile format"
   homepage "https://github.com/yuv422/png2tile"
@@ -28,8 +25,8 @@ class Png2tile < Formula
            "-savepalette", "pal.bin",
            "-savetilemap", "map.bin"
 
-    assert_predicate testpath/"tiles.bin", :exist?
-    assert_predicate testpath/"pal.bin", :exist?
-    assert_predicate testpath/"map.bin", :exist?
+    assert_path_exists testpath/"tiles.bin"
+    assert_path_exists testpath/"pal.bin"
+    assert_path_exists testpath/"map.bin"
   end
 end
