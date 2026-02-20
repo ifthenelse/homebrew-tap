@@ -1,8 +1,8 @@
 class Devkitsms < Formula
   desc "SMS/GG/SG-1000/SC-3000/ColecoVision devkit (SDCC)"
   homepage "https://github.com/sverx/devkitSMS"
-  url "https://github.com/sverx/devkitSMS/archive/refs/tags/8ce5a74.tar.gz"
-  version "2026-01-30+8ce5a74"
+  url "https://github.com/sverx/devkitSMS/archive/8ce5a743b9709d9712e6fc28b8e9a2adae73c868.tar.gz"
+  version "8ce5a74"
   sha256 "4985ec5f8f78f28df99c333572210ee2fe7f28b801338de385ce9de40ee9e370"
   # devkitSMS is a bundle of multiple components with different licenses:
   # - crt0: GPL-2.0 with a project-specific "special exception" (non-SPDX)
