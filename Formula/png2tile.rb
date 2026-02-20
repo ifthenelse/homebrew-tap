@@ -7,6 +7,7 @@ class Png2tile < Formula
   license "MIT"
 
   depends_on "cmake" => :build
+  depends_on "imagemagick" => :test
 
   def install
     system "cmake", "-S", ".", "-B", "build", *std_cmake_args
@@ -15,15 +16,21 @@ class Png2tile < Formula
   end
 
   test do
-    # 1x1 PNG (transparent) as base64; just to exercise the binary.
-    png_b64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMB/6X9l3sAAAAASUVORK5CYII="
-    (testpath/"in.png").binwrite(Base64.decode64(png_b64))
+    # Force an indexed (palette) PNG: png:color-type=3
+    system "magick", "-size", "8x8", "xc:black",
+                    "-colors", "2",
+                    "-type", "Palette",
+                    "-define", "png:color-type=3",
+                    "in.png"
+
+    out = shell_output("magick identify -format %[type] in.png").strip
+    assert_match "Palette", out
 
     system bin/"png2tile", "in.png",
-           "-binary",
-           "-savetiles", "tiles.bin",
-           "-savepalette", "pal.bin",
-           "-savetilemap", "map.bin"
+          "-binary",
+          "-savetiles", "tiles.bin",
+          "-savepalette", "pal.bin",
+          "-savetilemap", "map.bin"
 
     assert_path_exists testpath/"tiles.bin"
     assert_path_exists testpath/"pal.bin"
