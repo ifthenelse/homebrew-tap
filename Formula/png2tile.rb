@@ -23,8 +23,8 @@ class Png2tile < Formula
                     "-define", "png:color-type=3",
                     "in.png"
 
-    out = shell_output("magick identify -format %[type] in.png").strip
-    assert_match "Palette", out
+    ct = shell_output("magick identify -format %[png:color-type] in.png").strip
+    assert_equal "3", ct
 
     system bin/"png2tile", "in.png",
           "-binary",
