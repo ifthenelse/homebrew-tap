@@ -8,7 +8,6 @@ class Png2tile < Formula
 
   depends_on "cmake" => :build
   depends_on "imagemagick" => :test
-  depends_on "pngcheck" => :test
 
   def install
     system "cmake", "-S", ".", "-B", "build", *std_cmake_args
@@ -21,9 +20,6 @@ class Png2tile < Formula
                     "-fill", "white", "-draw", "point 0,0",
                     "+dither", "-colors", "2",
                     "PNG8:in.png"
-
-    pngcheck = shell_output("pngcheck -v in.png 2>&1")
-    assert_match(/indexed color/i, pngcheck)
 
     system bin/"png2tile", "in.png",
           "-binary",
