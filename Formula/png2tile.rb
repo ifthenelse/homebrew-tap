@@ -7,6 +7,7 @@ class Png2tile < Formula
   license "MIT"
 
   depends_on "cmake" => :build
+  depends_on "pngcheck" => :test
   depends_on "imagemagick" => :test
 
   def install
@@ -16,15 +17,14 @@ class Png2tile < Formula
   end
 
   test do
-    # Force an indexed (palette) PNG: png:color-type=3
     system "magick", "-size", "8x8", "xc:black",
                     "-colors", "2",
                     "-type", "Palette",
-                    "-define", "png:color-type=3",
                     "in.png"
 
-    ct = shell_output("magick identify -format %[png:color-type] in.png").strip
-    assert_equal "3", ct
+    # pngcheck output includes "indexed color" when the PNG is palette-based
+    pngcheck = shell_output("pngcheck -v in.png 2>&1")
+    assert_match(/indexed color/i, pngcheck)
 
     system bin/"png2tile", "in.png",
           "-binary",
