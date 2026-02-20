@@ -1,9 +1,9 @@
 class Png2tile < Formula
   desc "Convert PNG images into Sega Master System tile format"
   homepage "https://github.com/yuv422/png2tile"
-  url "https://github.com/yuv422/png2tile/archive/refs/heads/master.tar.gz"
+  url "https://github.com/yuv422/png2tile/archive/4822a3a0cfdb59aa287008324222b2a5a26e8bc3.tar.gz"
   version "4822a3a"
-  sha256 "e9e575cc5cdcaf34a2699fd648abb7db890a1bf08a85dc5b92a3ea233febc22b"
+  sha256 "0ddcad0f1b899f1b17a531e37197e922644a41a4378b4dd3da75e68bf84deaa8"
   license "MIT"
 
   depends_on "cmake" => :build
