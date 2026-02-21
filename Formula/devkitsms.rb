@@ -35,6 +35,20 @@ class Devkitsms < Formula
       end
     end
 
+    # Build SMSlib.lib using SDCC
+    if (buildpath/"SMSlib").directory?
+      cd "SMSlib" do
+        system "make" if (Pathname.pwd/"Makefile").exist?
+      end
+    end
+
+    # Build crt0_sms.rel using SDCC
+    if (buildpath/"crt0").directory?
+      cd "crt0" do
+        system "make" if (Pathname.pwd/"Makefile").exist?
+      end
+    end
+
     # Install SDK payload as data (stable path: $(brew --prefix)/share/devkitsms)
     pkgshare.install "SMSlib" if (buildpath/"SMSlib").exist?
     pkgshare.install "SGlib"  if (buildpath/"SGlib").exist?
