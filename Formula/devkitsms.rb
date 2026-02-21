@@ -91,6 +91,29 @@ class Devkitsms < Formula
   end
 
   test do
-    assert_path_exists bin/"makesms"
+    kit = opt_share/"devkitsms"
+
+    # Deterministic payload checks (installed as data)
+    assert_path_exists kit/"SMSlib/src/SMSlib.h"
+    assert_path_exists kit/"SMSlib/src/peep-rules.txt"
+    assert_path_exists kit/"SMSlib/SMSlib.lib"
+
+    # Compile-only smoke test using installed headers + peep rules
+    (testpath/"main.c").write <<~C
+      #include <SMSlib.h>
+      void main(void) {
+        SMS_init();
+        SMS_displayOn();
+        for(;;) { SMS_waitForVBlank(); }
+      }
+    C
+
+    system "sdcc", "-mz80", "--opt-code-speed", "--reserve-regs-iy",
+                   "--peep-file", kit/"SMSlib/src/peep-rules.txt",
+                   "-I#{kit}/SMSlib", "-I#{kit}/SMSlib/src",
+                   "-c", testpath/"main.c",
+                   "-o", testpath/"main.rel"
+
+    assert_path_exists testpath/"main.rel"
   end
 end
